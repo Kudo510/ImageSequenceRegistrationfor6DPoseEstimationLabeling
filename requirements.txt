@@ -1,0 +1,15 @@
+pyyaml
+einops
+gitpython
+numpy
+opencv-python
+moviepy
+torch
+tensorboard
+torch-tb-profiler
+albumentations
+IPython
+pymcubes
+trimesh
+open3d
+git+https://github.com/facebookresearch/pytorch3d.git

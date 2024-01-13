@@ -1,0 +1,2 @@
+# ImageSequenceRegistrationfor6DPoseEstimationLabeling
+Image Sequence Registration for 6D Pose Estimation Labeling

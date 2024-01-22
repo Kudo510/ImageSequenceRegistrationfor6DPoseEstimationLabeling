@@ -2,6 +2,8 @@ import numpy as np
 import json
 import open3d as o3d
 import copy 
+import argparse
+import torch
 
 def vp(finalV): ##vp only the point clouds wihtout colors
     import open3d as o3d
@@ -28,14 +30,13 @@ def draw_registration_result(source, target, transformation):
 arg_parser = argparse.ArgumentParser(description="Train a Linemod")
 arg_parser.add_argument("--objid", dest="objid", default="1", )
 # arg_parser.add_argument("--UH", dest="UH", default=0)
-arg_parser.add_argument("--dataset",dest="dataset",default="tless",)
+arg_parser.add_argument("--dataset",dest="dataset",default="ruapc",)
 args = arg_parser.parse_args()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-with open("0_" + str(args.dataset)+"_obj_" +str(args.objid) +"/" + str(args.objid) "top_50_choices.txt", 'r') as file:
-    # Load the JSON data
-    id_chosen = json.load(file)[0]
-# id_chosen = 820
+with open("0_" + str(args.dataset)+"_obj_" +str(args.objid) +"/" + str(args.objid) + "top_50_choices.txt", 'r') as file:
+    data = [int(line.strip()) for line in file]
+id_chosen = data[0]
 
 meshdetails = json.load(open('bop/'+ args.dataset +'/models/models_info.json'))
 diam = meshdetails[str(args.objid)]['diameter']
@@ -53,8 +54,8 @@ lower = np.load("0_" + args.dataset + "_obj_" + str(args.objid) +"/" +str(args.o
 # lower = lower * scale
 
 
-R_pose6D_chosen = np.load("0_" + str(args.dataset) +"_obj_" + str(args.objid) +"/" + str(args.objid + "pred_R.npy")[id_chose] ##(3,3)
-t_pose6D_chosen = np.load("0_" + str(args.dataset) +"_obj_" + str(args.objid) +"/" + str(args.objid + "pred_1.npy")[id_chose] ##(3)
+R_pose6D_chosen = np.load("0_" + str(args.dataset) +"_obj_" + str(args.objid) +"/" + str(args.objid) + "pred_R.npy")[id_chosen] ##(3,3)
+t_pose6D_chosen = np.load("0_" + str(args.dataset) +"_obj_" + str(args.objid) +"/" + str(args.objid) + "pred_t.npy")[id_chosen] ##(3)
 
 with open("bop/" + str(args.dataset) +"/train/" + str(args.objid).zfill(6) +"/scene_gt.json", 'r') as file:
     # Load the JSON data
@@ -122,6 +123,6 @@ draw_registration_result(pred_obj_full, cad_model, trans_init)
 # print final result
 print('diameter', diam)
 print("Chamfer Distance(final):", chamfer_distance) ## should be < dimater * 0.1
-print("final transformation matrix between first and second sequence is:", reg_p2p.transformation)
+print("final transformation matrix between first and second sequence is: \n", reg_p2p.transformation)
 
 

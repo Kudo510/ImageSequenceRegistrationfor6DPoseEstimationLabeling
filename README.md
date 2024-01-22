@@ -46,15 +46,15 @@ train two different models for upper half and bottom half of the object by chang
 
 ## Generating Correspondences:
 we generate 3D correposnding coordinates for the set of training image using the command below
-python generateCors.py --objid 2 --dataset ruapc --UH 1 --viz 0
 
+python generateCors.py --objid 2 --dataset ruapc --UH 1 --viz 0
 set viz as 1 to visualize the denoised pointcloud to see if it doesn't have any noise. ideally the visualization should contain the object pointcloud which covers our viewpoints
 
 ## Train NeRFEmb: Our pose estimator
 
 To obtain the few.npy and negVec.npy (negative 3D point clouds) first then reun the second time to train the Pose
-python trainPose.py --objid 2 --cont True
 
+python trainPose.py --objid 2 --cont True
 You need to downlaod coco dataset for backgrounds. Set the path to coco dataset in the trainPose File. You can also use a subset of coco. It doesn't haver to have so many images.
 The more backgrounds we have, the more generalized our pose estimator becomes.
 However, since our target is not general pose estimation and we only want to do pose estimation for another NeRF sequence which is already segmented and put on black backgorund,
@@ -62,29 +62,25 @@ we can train with fewer backgrounds also.
 
 ## Inference
 ### Firstly generating scaled features
-To perform inference, we need to first estimate features for pointcloud from NeRF Feature MLP and scale them to actual cad model scale. We learn NeRF in a normalized space[0-1]. We perform inference on normalized pointcloud to extract features
-and save the feature. We then scale the point cloud and save the real world scale point cloud along with per-point features for visualization.
-The command to generate per-point features is 
+To perform inference, we need to first estimate features for pointcloud from NeRF Feature MLP and scale them to actual cad model scale. We learn NeRF in a normalized space[0-1]. We perform inference on normalized pointcloud to extract features and save the feature. We then scale the point cloud and save the real world scale point cloud along with per-point features for visualization.
+The command to generate per-point features is:
 
 python genFeat.py --objid 1
-
 You should see vert1_scaled.npy, feat1_scaled.npy, normal1_scaled.npy saved in the "7poseEst" folder after executing this statement
 
 ### Then we run inference on desired image with image ID.
 
 python inference.py --objid 2 --id 1285
-
 "id" is the number of the image in training image.
 
 ## Verification scheme
 python inference.py  --objid 1 
-
 You can get pred6d.json after running this command, which is the predicted 6d poses of all images in dataset.
+
 python verification.py --objid1
-
 You can get the id of best image for the following ICP
-python ICP.py --objid --bestimage (the best image id from verification.py)
 
+python ICP.py --objid --bestimage (the best image id from verification.py)
 It visualize the two pointcloud before icp and two pointcloud after icp and point clouds with Cad model. print the chamfer distance between point cloud and Cad model.
 
 ## Refine pose with ICP and get final transformation result

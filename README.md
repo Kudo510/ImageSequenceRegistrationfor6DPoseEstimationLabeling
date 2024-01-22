@@ -21,6 +21,7 @@ Afterwards, ICP is employed to refine the prediction. It results in a corect reg
 ![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/c58c12c7-b26a-482b-8690-8913259d8286)
 
 We also compare the predicted object with the CAD model using Chamfer distance metric (in our case here the error is 1.26 much smaller than the threshold of 0.1*diamter)
+
 ![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/0dff6c47-a77f-4850-9546-ed41fe0aa084)
 
 ### Tless dataset

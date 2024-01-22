@@ -78,10 +78,13 @@ python inference.py --objid 2 --id 1285
 
 ## Verification scheme
 python inference.py  --objid 1 
+
 You can get pred6d.json after running this command, which is the predicted 6d poses of all images in dataset.
 python verification.py --objid1
+
 You can get the id of best image for the following ICP
 python ICP.py --objid --bestimage (the best image id from verification.py)
+
 It visualize the two pointcloud before icp and two pointcloud after icp and point clouds with Cad model. print the chamfer distance between point cloud and Cad model.
 
 ## Refine pose with ICP and get final transformation result

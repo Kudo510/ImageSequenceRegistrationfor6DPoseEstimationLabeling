@@ -15,14 +15,14 @@ After obtaining the refined pose, we stack the 2 NeRF together to obtain the fin
 ### Ruapc dataset
 During the first phrase of our project, we started with the simple textured ruapc dataset from BOP Benchmark. 
 We tested our model on object id 000001. Multiply the NeRF from second sequence with predicted 6D pose, we obtain the NeRF of both sequences in a same canonical frame:
-
 ![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/ada8e112-6bd2-43e7-85f9-007fd3681569)
+
 Afterwards, ICP is employed to refine the prediction. It results in a corect registration
-
 ![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/c58c12c7-b26a-482b-8690-8913259d8286)
-We also compare the predicted object with the CAD model using Chamfer distance metric (in our case here the error is 1.26 much smaller than the threshold of 0.1*diamter)
 
+We also compare the predicted object with the CAD model using Chamfer distance metric (in our case here the error is 1.26 much smaller than the threshold of 0.1*diamter)
 ![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/0dff6c47-a77f-4850-9546-ed41fe0aa084)
+
 ### Tless dataset
 Since our methodology works with textured object, we want to test it in a much challeging dataset which is the textureless symmetric dataset Tless also from BOP benchmark.
 #### Continuous symmetric object

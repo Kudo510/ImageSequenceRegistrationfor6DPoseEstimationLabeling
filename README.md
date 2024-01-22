@@ -1,4 +1,4 @@
-#ImageSequenceRegistrationfor6DPoseEstimationLabeling
+# ImageSequenceRegistrationfor6DPoseEstimationLabeling
 Image Sequence Registration for 6D Pose Estimation Labeling
 
 ## Install packages:
@@ -46,31 +46,13 @@ python inference.py --objid 2 --id 1285
 
 "id" is the number of the image in training image.
 
-### Examples
-#### #For ruapc
-    python trainNerfFine.py --objid 1 --dataset ruapc --UH 1 --cont True
-    python generateCors.py --objid 1 --dataset ruapc --UH 1 --viz 0
-    python trainPose.py --dataset ruapc --objid 1 --UH 1 --cont True
-    python genFeat.py --objid 1 --dataset ruapc --UH 0
-    python inference.py --objid 1 --dataset ruapc --UH 0 --id 5
-#### #For tless
-    pip install -r requirements.txt
-    ( python trainNerfFine.py --objid 1 --dataset tless --UH 0 --cont True)
-    python generateCors.py --objid 1 --dataset tless --UH 0 --viz 0
-    python trainPose.py --dataset tless --objid 1 --UH 0 --cont True
-    python genFeat.py --objid 1 --dataset tless --UH 0
-    python inference.py --objid 1 --dataset tless --UH 0 --id 5
-## Choosing the best image
-### saving correctly predicted images name
-python inference.py --objid 2 --dataset ruapc --UH 0
-### saving predicted poses (pred_R, pred_t)
-python choosePose.py --objid 1 --dataset ruapc --posesEst 1
-### calculate GT relative poses between images in second sequence
-python choosePose.py --objid 1 --dataset ruapc --rel_poses 1 --cal_GT 1
-### calculate predicted relative poses (based on pred_R ,pred_t) between images in second sequence
-python choosePose.py --objid 1 --dataset ruapc --rel_poses 1 --cal_pred 1
-### choose image 
-python choosePose.py --objid 1 --dataset ruapc --choose_image 1
+## Verification scheme, choosing best image for registration 
+python inference.py  --objid 1 
+You can get pred6d.json after running this command, which is the predicted 6d poses of all images in dataset.
+python verification.py --objid1
+You can get the id of best image for the following ICP
+python ICP.py --objid --bestimage (the best image id from verification.py)
+It visualize the two pointcloud before icp and two pointcloud after icp and point clouds with Cad model. print the chamfer distance between point cloud and Cad model.
 
 ## refine pose with ICP and get final transformation result
 python icp.py --dataset ruapc --objid 1 

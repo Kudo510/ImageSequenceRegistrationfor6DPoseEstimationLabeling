@@ -26,10 +26,10 @@ We also compare the predicted object with the CAD model using Chamfer distance m
 
 ### Tless dataset
 Since our methodology works with textured object, we want to test it in a much challeging dataset which is the textureless symmetric dataset Tless also from BOP benchmark.
-#### Continuous symmetric object
+#### Registration for continuous symmetric object
 ![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/36e1fc8e-b774-4097-b22d-dc188f6c7889)
-#### Discrete symmetric object
-![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/fd359b58-1b9a-4210-b560-0df879e0a54c)
+#### Registration for discrete symmetric object
+![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/efd7dd8b-bce3-4f0a-81b3-c719dc943441)
 
 ## Install packages:
 pip install -r requirements.txt

@@ -1,11 +1,13 @@
 # ImageSequenceRegistrationfor6DPoseEstimationLabeling
 Image Sequence Registration for 6D Pose Estimation Labeling
 ## Methodology
-Given two image sequences of a textureless object from Tless dataset in BOP benchmark, we utilize the idea from Surfemb architecture to register the two sequences by estimating the 6D relative pose between them. Specifically, we applied Suremb to find 3D-2D correspondences
+Given two image sequences of a textureless object from Tless dataset in BOP benchmark, we utilize the idea from Surfemb architecture to register the two sequences by estimating the 6D relative pose between them. Specifically, we applied Suremb to find 3D-2D correspondences
 between the NeRF reconstructed from first sequence and 2D images from the second sequence.
 The relative pose is then calculated based on the correspondences via PnP with RANSAC.
 In order to choose the best predicted 6D pose apply a verification scheme that we compare all predicted relative poses between images with the ground truth then choose the one with the smallest Chamfer distance loss. Eventually we obtain the most accurate 6D pose between the first and second sequence out of all predictions. Nevertheless, the prediction cannot be 100% precise comparing with the ground truth pose. In order to refine the 6D pose prediction, we first recontruct Nerf for both sequences. Then we transform the second sequence to the same canonical frame as first sequence using the predicted 6D pose. Subsequently, we obtain the correct relative pose through the refinement step applying ICP.
 After obtaining the refined pose, we stack the 2 NeRF together to obtain the final full predicted 3D model. We evaluate the quantitative results using Chamfer distance metric. The pose prediction is correct when the error is much smaller than the threshold of 0.1*diameter
+## Results
+During the first phrase of our project we started with the simple textured ruapc dataset from
 ## Install packages:
 pip install -r requirements.txt
 ## Training Nerf:

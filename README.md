@@ -4,9 +4,9 @@ Image Sequence Registration for 6D Pose Estimation Labeling
 In 6d pose estimation tasks, CAD models are always needed for training. But in reality, what we can easily obtain for each object only the images of the object not its CAD model. So we need to find a way reconstruct and in our case we want to use NeRF to replace the CAD model. Using NeRF to reconstruct the whole object requires  images that covers the whole object. However, in reality when we capture images of an object, one sequence can not cover the full object (only e.g upper or lower part of objects). As a consequence, we need at least 2 sequences e.g for the upper and lower part of objects to get a full image sequence for entire object. Neverless, one problem will occur that convert the 2 sequences to the same reference frame or in other words we need to register the 2 sequences. By doing we obtain a dataset covers full objects that NeRF could be applied on to gererate 3D model for objects. Our project solves this registration problem.
 # Related Works
 Generally, there are three approaches for this task
-1. 1st approach: Finding poses between images using 2D-2D correspondences via Essential Matrix
-2. 2nd approach: Finding poses between image and 3D model using 2D-3D correspondences via Pnp + RANSAC (This approach is used in our solution)
-3. 3rd approach: Finding poses between 2 3D models using 3D -3D correspondences - via ICP (Dreg-Nerf and Nerf2Nerf apply this method)
+* 1st approach: Finding poses between images using 2D-2D correspondences via Essential Matrix
+*  2nd approach: Finding poses between image and 3D model using 2D-3D correspondences via Pnp + RANSAC (This approach is used in our solution)
+* 3rd approach: Finding poses between 2 3D models using 3D -3D correspondences - via ICP (Dreg-Nerf and Nerf2Nerf apply this method)
 
 ## Methodology
 Given two image sequences of a textureless object from Tless dataset in BOP benchmark, we utilize the idea from Surfemb architecture to register the two sequences by estimating the 6D relative pose between them. Specifically, we applied Suremb to find 3D-2D correspondences

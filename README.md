@@ -43,7 +43,7 @@ pip install -r requirements.txt
 You can mention object id using objid and (--UH 0) means lower half of the object and (--UH 1) means upper half of the objects. After training, you can see the generated NeRF images along with the point cloud of the reconstruciton
 v1.npy contains pointcloud as 3D numpy array
 v1Fine contains the same but reconstructed with finer NeRF model
-train two different models for upper half and bottom half of the object by changing the UH variable. you also need to change the folder. It will overwrite it self. I didn't code that
+train two different models for upper half and bottom half of the object by changing the UH variable.
 
 ## Generating Correspondences:
 we generate 3D correposnding coordinates for the set of training image using the command below

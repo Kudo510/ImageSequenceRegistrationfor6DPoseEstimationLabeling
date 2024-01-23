@@ -1,5 +1,8 @@
 # ImageSequenceRegistrationfor6DPoseEstimationLabeling
 Image Sequence Registration for 6D Pose Estimation Labeling
+# Motivation
+In 6d pose estimation tasks, CAD models are always needed for training. But in reality, what we can easily obtain for each object only the images of the object not its CAD model. So we need to find a way reconstruct and in our case we want to use NeRF to replace the CAD model. Using NeRF to reconstruct the whole object requires  images that covers the whole object. However, in reality when we capture images of an object, one sequence can not cover the full object (only e.g upper or lower part of objects). As a consequence, we need at least 2 sequences e.g for the upper and lower part of objects to get a full image sequence for entire object. Neverless, one problem will occur that convert the 2 sequences to the same reference frame or in other words we need to register the 2 sequences. By doing we obtain a dataset covers full objects that NeRF could be applied on to gererate 3D model for objects. Our project solves this registration problem.
+
 ## Methodology
 Given two image sequences of a textureless object from Tless dataset in BOP benchmark, we utilize the idea from Surfemb architecture to register the two sequences by estimating the 6D relative pose between them. Specifically, we applied Suremb to find 3D-2D correspondences
 between the NeRF reconstructed from first sequence and 2D images from the second sequence.

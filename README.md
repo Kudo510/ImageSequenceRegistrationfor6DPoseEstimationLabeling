@@ -33,7 +33,15 @@ We also compare the predicted object with the CAD model using Chamfer distance m
 ![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/0dff6c47-a77f-4850-9546-ed41fe0aa084)
 
 ### Tless dataset
-Since our methodology works with textured object, we want to test it in a much challeging dataset which is the textureless symmetric dataset Tless also from BOP benchmark.
+Since our methodology works with textured object, we want to test it in a much challeging dataset which is the textureless symmetric dataset Tless also from BOP benchmark. 
+
+We chose the T-LESS dataset
+because it is still challenging not only for pure RGB detectors but also for RGBD
+detectors. Several factors contribute to the complexity of the dataset. First, all
+objects are textureless in a sense that they do not have distinctive colors. All
+of them are colored in more or less the same shade of gray, except for certain
+structural parts. Second, the T-LESS
+objects exhibit symmetries leading to pose ambiguity.
 #### Registration for continuous symmetric object
 ![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/36e1fc8e-b774-4097-b22d-dc188f6c7889)
 #### Registration for discrete symmetric object

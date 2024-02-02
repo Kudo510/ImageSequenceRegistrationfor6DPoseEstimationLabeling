@@ -33,7 +33,7 @@ We also compare the predicted object with the CAD model using Chamfer distance m
 ![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/0dff6c47-a77f-4850-9546-ed41fe0aa084)
 
 ### Tless dataset
-Since our methodology works with textured object, we want to test it in a much challeging dataset which is the textureless symmetric dataset Tless also from BOP benchmark. 
+Since our methodology worked on textured objects, we want to test it in a much more challeging dataset which is the textureless symmetric dataset Tless (also from BOP benchmark).
 
 We chose the T-LESS dataset
 because it is still challenging not only for pure RGB detectors but also for RGBD

@@ -48,7 +48,7 @@ objects exhibit symmetries leading to pose ambiguity.
 ![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/efd7dd8b-bce3-4f0a-81b3-c719dc943441)
 
 ## Install packages:
-'''pip install -r requirements.txt'''
+```bash pip install -r requirements.txt```
 ## Training NeRF:
 1. You have to create a folder with this structure bop/ruapc/
 2. unzip the synthetic training images(https://bop.felk.cvut.cz/media/data/bop_datasets/ruapc_train.zip) and models(https://bop.felk.cvut.cz/media/data/bop_datasets/ruapc_models.zip)

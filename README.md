@@ -53,78 +53,29 @@ We chose the T-LESS dataset because it is still challenging not only for pure RG
 2. Unzip the synthetic training images ([ruapc_train.zip](https://bop.felk.cvut.cz/media/data/bop_datasets/ruapc_train.zip)) and models ([ruapc_models.zip](https://bop.felk.cvut.cz/media/data/bop_datasets/ruapc_models.zip)).
 3. Then, change the `datasetPath` variable in the `trainNeRF.py` file to the location of "bop/ruapc".
 4. This is the command to run the NeRF: 
-
-
-
-
-
-## Results
-### Ruapc dataset
-During the first phrase of our project, we started with the simple textured ruapc dataset from BOP Benchmark. 
-We tested our model on object id 000001. Multiply the NeRF from second sequence with predicted 6D pose, we obtain the NeRF of both sequences in a same canonical frame:
-![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/ada8e112-6bd2-43e7-85f9-007fd3681569)
-
-Afterwards, ICP is employed to refine the prediction. It results in a corect registration
-![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/c58c12c7-b26a-482b-8690-8913259d8286)
-
-We also compare the predicted object with the CAD model using Chamfer distance metric (in our case here the error is 1.26 much smaller than the threshold of 0.1*diamter)
-
-![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/0dff6c47-a77f-4850-9546-ed41fe0aa084)
-
-### Tless dataset
-Since our methodology worked on textured objects, we want to test it in a much more challeging dataset which is the textureless symmetric dataset Tless (also from BOP benchmark).
-
-We chose the T-LESS dataset
-because it is still challenging not only for pure RGB detectors but also for RGBD
-detectors. Several factors contribute to the complexity of the dataset. First, all
-objects are textureless in a sense that they do not have distinctive colors. All
-of them are colored in more or less the same shade of gray, except for certain
-structural parts. Second, the T-LESS
-objects exhibit symmetries leading to pose ambiguity.
-#### Registration for continuous symmetric object
-![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/36e1fc8e-b774-4097-b22d-dc188f6c7889)
-#### Registration for discrete symmetric object
-![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/efd7dd8b-bce3-4f0a-81b3-c719dc943441)
-
-## Install packages:
-``` pip install -r requirements.txt```
-## Training NeRF:
-1. You have to create a folder with this structure bop/ruapc/
-2. unzip the synthetic training images(https://bop.felk.cvut.cz/media/data/bop_datasets/ruapc_train.zip) and models(https://bop.felk.cvut.cz/media/data/bop_datasets/ruapc_models.zip)
-3. Then, change the datasetPath variable in the trainNeRF.py file to the location of "bop/ruapc"
-4. This is the command to run the NeRF 
 ``` python trainNeRFFine.py --objid 1 --dataset tless --UH 1 ```
 
-You can mention object id using objid and (--UH 0) means lower half of the object and (--UH 1) means upper half of the objects. After training, you can see the generated NeRF images along with the point cloud of the reconstruciton
-v1.npy contains pointcloud as 3D numpy array
-v1Fine contains the same but reconstructed with finer NeRF model
-train two different models for upper half and bottom half of the object by changing the UH variable.
+You can mention object id using objid and (--UH 0) means lower half of the object and (--UH 1) means upper half of the objects. After training, you can see the generated NeRF images along with the point cloud of the reconstruction. `v1.npy` contains point cloud as a 3D numpy array. `v1Fine` contains the same but reconstructed with a finer NeRF model. Train two different models for the upper half and bottom half of the object by changing the `UH` variable.
 
 ## Generating Correspondences:
-we generate 3D correposnding coordinates for the set of training image using the command below
-
+We generate 3D corresponding coordinates for the set of training images using the command below:
 ``` python generateCors.py --objid 2 --dataset ruapc --UH 1 --viz 0 ```
-set viz as 1 to visualize the denoised pointcloud to see if it doesn't have any noise. ideally the visualization should contain the object pointcloud which covers our viewpoints
+Set `viz` as 1 to visualize the denoised point cloud to see if it doesn't have any noise. Ideally, the visualization should contain the object point cloud which covers our viewpoints.
 
 ## Train NeRFEmb: Our pose estimator
-
-To obtain the few.npy and negVec.npy (negative 3D point clouds) first then reun the second time to train the Pose
+To obtain the `few.npy` and `negVec.npy` (negative 3D point clouds) first, then run the second time to train the Pose:
 
 ``` python trainPose.py --objid 2 --cont True ```
-You need to downlaod coco dataset for backgrounds. Set the path to coco dataset in the trainPose File. You can also use a subset of coco. It doesn't haver to have so many images.
-The more backgrounds we have, the more generalized our pose estimator becomes.
-However, since our target is not general pose estimation and we only want to do pose estimation for another NeRF sequence which is already segmented and put on black backgorund,
-we can train with fewer backgrounds also.
+You need to download the COCO dataset for backgrounds. Set the path to the COCO dataset in the `trainPose` File. You can also use a subset of COCO. It doesn't have to have so many images. The more backgrounds we have, the more generalized our pose estimator becomes. However, since our target is not general pose estimation and we only want to do pose estimation for another NeRF sequence which is already segmented and put on a black background, we can train with fewer backgrounds also.
 
 ## Inference
 ### Firstly generating scaled features
-To perform inference, we need to first estimate features for pointcloud from NeRF Feature MLP and scale them to actual cad model scale. We learn NeRF in a normalized space[0-1]. We perform inference on normalized pointcloud to extract features and save the feature. We then scale the point cloud and save the real world scale point cloud along with per-point features for visualization.
-The command to generate per-point features is:
+To perform inference, we need to first estimate features for the point cloud from NeRF Feature MLP and scale them to the actual CAD model scale. We learn NeRF in a normalized space [0-1]. We perform inference on normalized point cloud to extract features and save the feature. We then scale the point cloud and save the real-world scale point cloud along with per-point features for visualization. The command to generate per-point features is:
 
 ``` python genFeat.py --objid 1 ```
-You should see vert1_scaled.npy, feat1_scaled.npy, normal1_scaled.npy saved in the "7poseEst" folder after executing this statement
+You should see `vert1_scaled.npy`, `feat1_scaled.npy`, `normal1_scaled.npy` saved in the "7poseEst" folder after executing this statement.
 
-### Then we run inference on desired image with image ID.
+### Then we run inference on the desired image with image ID.
 
 ``` python inference.py --objid 2 --id 1285 ```
 "id" is the number of the image in training image.

@@ -46,26 +46,31 @@ We chose the T-LESS dataset because it is still challenging not only for pure RG
 ![image](https://github.com/Kudo510/ImageSequenceRegistrationfor6DPoseEstimationLabeling/assets/68633914/efd7dd8b-bce3-4f0a-81b3-c719dc943441)
 
 ## Install packages:
+
 ``` pip install -r requirements.txt```
 
 ## Training NeRF:
 1. You have to create a folder with this structure bop/ruapc/
 2. Unzip the synthetic training images ([ruapc_train.zip](https://bop.felk.cvut.cz/media/data/bop_datasets/ruapc_train.zip)) and models ([ruapc_models.zip](https://bop.felk.cvut.cz/media/data/bop_datasets/ruapc_models.zip)).
 3. Then, change the `datasetPath` variable in the `trainNeRF.py` file to the location of "bop/ruapc".
-4. This is the command to run the NeRF: 
+4. This is the command to run the NeRF:
+
 ``` python trainNeRFFine.py --objid 1 --dataset tless --UH 1 ```
 
 You can mention object id using objid and (--UH 0) means lower half of the object and (--UH 1) means upper half of the objects. After training, you can see the generated NeRF images along with the point cloud of the reconstruction. `v1.npy` contains point cloud as a 3D numpy array. `v1Fine` contains the same but reconstructed with a finer NeRF model. Train two different models for the upper half and bottom half of the object by changing the `UH` variable.
 
 ## Generating Correspondences:
 We generate 3D corresponding coordinates for the set of training images using the command below:
+
 ``` python generateCors.py --objid 2 --dataset ruapc --UH 1 --viz 0 ```
+
 Set `viz` as 1 to visualize the denoised point cloud to see if it doesn't have any noise. Ideally, the visualization should contain the object point cloud which covers our viewpoints.
 
 ## Train NeRFEmb: Our pose estimator
 To obtain the `few.npy` and `negVec.npy` (negative 3D point clouds) first, then run the second time to train the Pose:
 
 ``` python trainPose.py --objid 2 --cont True ```
+
 You need to download the COCO dataset for backgrounds. Set the path to the COCO dataset in the `trainPose` File. You can also use a subset of COCO. It doesn't have to have so many images. The more backgrounds we have, the more generalized our pose estimator becomes. However, since our target is not general pose estimation and we only want to do pose estimation for another NeRF sequence which is already segmented and put on a black background, we can train with fewer backgrounds also.
 
 ## Inference
@@ -73,24 +78,31 @@ You need to download the COCO dataset for backgrounds. Set the path to the COCO 
 To perform inference, we need to first estimate features for the point cloud from NeRF Feature MLP and scale them to the actual CAD model scale. We learn NeRF in a normalized space [0-1]. We perform inference on normalized point cloud to extract features and save the feature. We then scale the point cloud and save the real-world scale point cloud along with per-point features for visualization. The command to generate per-point features is:
 
 ``` python genFeat.py --objid 1 ```
+
 You should see `vert1_scaled.npy`, `feat1_scaled.npy`, `normal1_scaled.npy` saved in the "7poseEst" folder after executing this statement.
 
 ### Then we run inference on the desired image with image ID.
 
 ``` python inference.py --objid 2 --id 1285 ```
+
 "id" is the number of the image in training image.
 
 ## Verification scheme
+
 ``` python inference.py  --objid 1 ```
+
 You can get pred6d.json after running this command, which is the predicted 6d poses of all images in dataset.
 
 ``` python verification.py --objid1 ```
+
 You can get the id of best image for the following ICP
 
 ``` python ICP.py --objid --bestimage ``` (the best image id from verification.py)
+
 It visualize the two pointcloud before icp and two pointcloud after icp and point clouds with Cad model. print the chamfer distance between point cloud and Cad model.
 
 ## Refine pose with ICP and get final transformation result
+
 ``` python icp.py --dataset ruapc --objid 1  ```
 
 
